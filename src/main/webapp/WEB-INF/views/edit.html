@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit</title>
+    <style>
+        .content {
+            max-width: 500px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body class="content">
+<form th:method="PATCH" th:action="@{/{id}(id=${task.getId()})}" th:object="${task}">
+    <table width="10%" border="1" cellpadding="2" >
+        <caption>Edit Task</caption>
+        <tr>
+            <th>ID</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Update</th>
+        </tr>
+        <tr>
+            <td>-</td>
+            <td>
+                <label for="description"></label>
+                <input type="text" th:field="*{description}" id="description"/>
+            </td>
+            <td>
+                <label for="status"></label>
+                <select id="status" th:field="*{status}">
+                <option value="IN_PROGRESS">IN_PROGRESS</option>
+                <option value="DONE">DONE</option>
+                <option value="PAUSED">PAUSED</option>
+            </select>
+            </td>
+            <td>
+                <input type="submit" value="update">
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

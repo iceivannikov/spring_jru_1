@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Tasks</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<style>
+    .content {
+        max-width: 500px;
+        margin: auto;
+    }
+
+    .active_page {
+        color: rgba(255, 99, 71, 0.99);
+    }
+
+    .button_page {
+        color: white;
+        border: 1px solid black;
+        margin: 5px;
+        padding: 20px;
+        font-size: large;
+    }
+</style>
+<body class="content">
+<table width="10%" border="1" cellpadding="2" >
+    <caption>Table Task</caption>
+    <tr align="center" valign="top">
+        <th>ID</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <tr align="center" valign="top" th:each="task, number : ${tasks}">
+        <td th:text="${task.id}">ID</td>
+        <td th:text="${task.description}" th:id="${task.description}">DESC</td>
+        <td th:text="${task.status}" th:id="${task.status}">STATUS</td>
+        <td>
+            <form th:method="POST" th:action="@{/{id}(id=${task.getId()})}">
+                <input type="submit" value="Edit">
+            </form>
+        </td>
+        <td>
+            <form th:method="DELETE" th:action="@{/{id}(id=${task.id})}">
+                <input type="submit" value="Delete"/>
+            </form>
+        </td>
+    </tr>
+</table>
+<form th:method="POST" th:action="@{/}" th:object="${taskInfo}">
+    <table width="10%" border="1" cellpadding="2" >
+    <tr>
+        <td colspan="4">Add new task:</td>
+    </tr>
+    <tr>
+        <td>
+            -
+        </td>
+        <td>
+            <label>
+                <input th:id="${taskInfo.description}"  th:field="*{description}" type="text" value=''>
+            </label>
+        </td>
+        <td>
+
+            <label>
+                <select th:id="${taskInfo.status}" th:field="*{status}">
+                    <option value="IN_PROGRESS">IN_PROGRESS</option>
+                    <option value="DONE">DONE</option>
+                    <option value="PAUSED">PAUSED</option>
+                </select>
+            </label>
+        </td>
+        <td>
+                <input type="submit" value="Save">
+        </td>
+    </tr>
+    </table>
+</form>
+<br>
+<br>
+<h2>
+    <button th:each="pageNumber : ${page_numbers}" class="button_page">
+        <a th:href="@{/(page=${pageNumber}, limit=10)}" th:text="${pageNumber}"
+           th:classappender="${pageNumber==current_page? 'active_page' : ''}"></a>
+    </button>
+</h2>
+
+
+</body>
+</html>
